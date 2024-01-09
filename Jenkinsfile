@@ -38,7 +38,7 @@ pipeline {
                 script {
                     dockerImage.tag("${BUILD_NUMBER}")
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
-                        dockerImage.push('latest')
+                        dockerImage.push()
                     }
                 }
             }
