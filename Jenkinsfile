@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     def imageName = "echo-ci-cd:${BUILD_NUMBER}"
-                    dockerImage = docker.build(imageName, "-f Dockerfile .")
+                    dockerImage = docker.build(registryName, "-f Dockerfile .")
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     def imageName = "echo-ci-cd:${BUILD_NUMBER}"
-                    dockerImage.tag(imageName)
+                    dockerImage.tag(registryName)
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
                         dockerImage.push('latest')
                     }
