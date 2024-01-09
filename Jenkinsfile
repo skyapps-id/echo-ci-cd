@@ -36,7 +36,7 @@ pipeline {
         stage('Upload Image to ACR') {
             steps {
                 script {
-                    dockerImage.tag("${BUILD_NUMBER}")
+                    // dockerImage.tag("${BUILD_NUMBER}")
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
                         dockerImage.push()
                     }
@@ -45,11 +45,11 @@ pipeline {
         }
     }
     
-    /* post {
+    post {
         always {
             script {
                 dockerImage.remove() // Remove the Docker image after use
             }
         }
-    } */
+    }
 }
