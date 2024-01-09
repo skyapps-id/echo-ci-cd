@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registryName = "echo-ci-cd"
+        registryName = "echo-ci-cd:${BUILD_NUMBER}"
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
@@ -45,11 +45,11 @@ pipeline {
         }
     }
     
-    post {
+    /* post {
         always {
             script {
                 dockerImage.remove() // Remove the Docker image after use
             }
         }
-    }
+    } */
 }
