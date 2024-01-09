@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registryName = "echo-ci-cd:${BUILD_NUMBER}"
+        registryName = "echo-ci-cd"
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
@@ -36,7 +36,7 @@ pipeline {
         stage('Upload Image to ACR') {
             steps {
                 script {
-                    dockerImage.tag(registryName)
+                    dockerImage.tag("${BUILD_NUMBER}")
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
                         dockerImage.push('latest')
                     }
@@ -45,7 +45,7 @@ pipeline {
         }
     }
     
-   /*  post {
+    /* post {
         always {
             script {
                 dockerImage.remove() // Remove the Docker image after use
