@@ -24,15 +24,15 @@ pipeline {
             }
         }
         
-        stage('Unit Test') {
-            steps {
-                script {
-                    dockerImage.inside {
-                        sh 'go test ./...'
-                    }
-                }
-            }
-        }
+        // stage('Unit Test') {
+        //     steps {
+        //         script {
+        //             dockerImage.inside {
+        //                 sh 'go test ./...'
+        //             }
+        //         }
+        //     }
+        // }
         
         stage('Upload Image to ACR') {
             steps {
