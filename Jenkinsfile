@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageName = "${registryName}:${BUILD_NUMBER}"
+                    def imageName = "echo-ci-cd:${BUILD_NUMBER}"
                     dockerImage = docker.build(imageName, "-f Dockerfile .")
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
         stage('Upload Image to ACR') {
             steps {
                 script {
-                    def imageName = "${registryName}:${BUILD_NUMBER}"
+                    def imageName = "echo-ci-cd:${BUILD_NUMBER}"
                     dockerImage.tag(imageName)
                     dockerImage.push('latest')
                 }
