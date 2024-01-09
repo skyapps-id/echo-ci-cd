@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-    registryName = "echo-ci-cd"
-    registryCredential = 'ACR'
-    dockerImage = ''
-    registryUrl = 'efishery.azurecr.io'
+        registryName = "echo-ci-cd"
+        registryCredential = 'ACR'
+        dockerImage = ''
+        registryUrl = 'efishery.azurecr.io'
+    }
     
     stages {
         stage ('Checkout') {
