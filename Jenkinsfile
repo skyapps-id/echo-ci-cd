@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage ('Checkout') {
             steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/skyapps-id/echo-ci-cd.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/skyapps-id/echo-ci-cd.git']]])
             }
         }
         
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     def imageName = "${registryName}:${BUILD_NUMBER}"
-                    dockerImage = docker.build(imageName, "-f path/to/Dockerfile .")
+                    dockerImage = docker.build(imageName, "-f Dockerfile .")
                 }
             }
         }
