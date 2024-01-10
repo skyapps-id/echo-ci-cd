@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        registryName = "echo-ci-cd:${BUILD_NUMBER}"
+        // registryName = "echo-ci-cd:${BUILD_NUMBER}"
+        registryName = "echo-ci-cd"
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
