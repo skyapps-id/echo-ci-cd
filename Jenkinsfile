@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // registryName = "echo-ci-cd:${BUILD_NUMBER}"
         registryName = "echo-ci-cd"
         registryCredential = 'ACR'
         dockerImage = ''
@@ -19,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build(registryName, "-f Dockerfile .")
+                    dockerImage = docker.build("registryName:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
@@ -43,6 +42,11 @@ pipeline {
                     }
                 }
             }
+        }
+
+        stage('Trigger ManifestUpdate') {
+            echo "triggering updatemanifestjob"
+            build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName)string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
         }
     }
     
