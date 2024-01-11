@@ -7,7 +7,7 @@ import (
 )
 
 func helloHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World 123 !!!!")
+	return c.String(http.StatusOK, "Hello, World!")
 }
 
 func main() {
