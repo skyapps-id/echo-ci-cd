@@ -17,7 +17,7 @@ WORKDIR /src/app
 RUN go build -o echo-ci-cd
 
 # Serve the app
-FROM alpine
+FROM golang:alpine
 
 WORKDIR /app
 
