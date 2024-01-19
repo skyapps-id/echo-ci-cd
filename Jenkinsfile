@@ -22,9 +22,21 @@ pipeline {
                 }
             }
             steps {
-                sh 'ls -la'
+                 // Create our project directory.
+                sh 'cd ${GOPATH}/src'
+                sh 'mkdir -p ${GOPATH}/src/app'
+
+                // Copy all files in our Jenkins workspace to our project directory.                
+                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/app'
+
+                // Copy all files in our "vendor" folder to our "src" folder.
+                sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
+
+                // Remove cached test results.
                 sh 'go clean -cache'
-                sh 'go test ./... -v -short'
+
+                // Run Unit Tests.
+                sh 'go test ./... -v -short'            
             }
         }
         
