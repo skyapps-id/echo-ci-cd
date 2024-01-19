@@ -14,21 +14,22 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Unit Test') {
+            agent {
+                docker {
+                    image 'golang'
+                }
+            }
+            steps {
+                sh 'go test ./...'
+            }
+        }
         
         stage('Build Docker Image') {
             steps {
                 script {
                     dockerImage = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
-                }
-            }
-        }
-        
-        stage('Unit Test') {
-            steps {
-                script {
-                    dockerImage.inside {
-                        sh 'go test ./...'
-                    }
                 }
             }
         }
