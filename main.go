@@ -21,7 +21,7 @@ var bookUsecase = usecase.NewUsecase(bookRepository)
 var bookHandler = handler.NewHandler(bookUsecase)
 
 func helloHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, eFishery")
+	return c.String(http.StatusOK, "Hello, eFishery !!!")
 }
 
 func main() {
