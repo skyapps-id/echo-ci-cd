@@ -24,9 +24,9 @@ pipeline {
         }
         
         stage('Unit Test') {
+            agent { docker { image "${registryName}:${BUILD_NUMBER}" }
             steps {
                 script {
-                    docker.image("${registryName}:${BUILD_NUMBER}").inside {
                         sh 'go test ./...'
                     }
                 }
