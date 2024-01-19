@@ -6,7 +6,7 @@ import (
 	"echo-ci-cd/handler"
 	"echo-ci-cd/repository"
 	"echo-ci-cd/usecase"
-	"net/http"
+	"echo-ci-cd/utils"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -20,8 +20,8 @@ var bookRepository = repository.NewBookRepository(db)
 var bookUsecase = usecase.NewUsecase(bookRepository)
 var bookHandler = handler.NewHandler(bookUsecase)
 
-func helloHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, eFishery !!!")
+func helloHandler(ctx echo.Context) error {
+	return utils.Response(ctx, "Hello, eFishery !!!", nil)
 }
 
 func main() {
