@@ -22,7 +22,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker run -rm my-go-app go test ./tests'
                 sh 'go version'
                 sh 'go test ./...'            
             }
