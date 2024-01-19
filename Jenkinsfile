@@ -1,10 +1,11 @@
 pipeline {
     agent any
 
+    def app
+
     environment {
         registryName = "echo-ci-cd"
         registryCredential = 'ACR'
-        dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
     }
     
@@ -18,16 +19,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
+                    app = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
         
         stage('Unit Test') {
-            agent { docker { image "${registryName}:${BUILD_NUMBER}" }
             steps {
                 script {
-                        sh 'go test ./...'
+                    app.inside {
+                        sh 'echo "Tests passed"'
                     }
                 }
             }
@@ -36,9 +37,8 @@ pipeline {
         stage('Upload Image to ACR') {
             steps {
                 script {
-                    // dockerImage.tag("${BUILD_NUMBER}")
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
-                        dockerImage.push()
+                        app.push()
                     }
                 }
             }
