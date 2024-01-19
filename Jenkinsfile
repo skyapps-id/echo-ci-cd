@@ -6,15 +6,12 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
-        GOCACHE = "${WORKSPACE}/.gocache"
+        CGO_ENABLED=0
+        GOOS=linux
+        GOARCH=amd64
     }
     
     stages {
-        stage("setup"){
-            steps {
-                sh 'mkdir -p $GOCACHE'
-            }
-        }
         stage ('Checkout') {
             steps {
                 checkout scm
