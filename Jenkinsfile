@@ -10,9 +10,7 @@ pipeline {
     
     stages {
         stage ('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/skyapps-id/echo-ci-cd.git']]])
-            }
+            checkout scm
         }
         
         stage('Build Docker Image') {
@@ -44,7 +42,7 @@ pipeline {
             }
         }
 
-        stage('Trigger ManifestUpdate') {
+        stage('Trigger Manifest Update') {
             steps {
                 script {
                     echo "triggering updatemanifestjob"
