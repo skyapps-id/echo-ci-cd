@@ -22,6 +22,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'go clean -cache'
                 sh 'go test ./...'
             }
         }
