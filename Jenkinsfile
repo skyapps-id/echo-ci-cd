@@ -6,6 +6,7 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
+        GOCACHE = "${WORKSPACE}/.gocache"
     }
     
     stages {
@@ -19,7 +20,6 @@ pipeline {
             agent {
                 docker {
                     image 'golang:1.19'
-                    args '-u 1000:1000'
                 }
             }
             steps {
