@@ -26,9 +26,8 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
-                    dockerImage.inside {
-                        // sh 'go test ./...'
-                        echo "Tests passed"
+                    docker.image("${registryName}:${BUILD_NUMBER}").inside {
+                        sh 'go test ./...'
                     }
                 }
             }
