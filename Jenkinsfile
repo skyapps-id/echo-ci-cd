@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     dockerImage.inside("--entrypoint=''") {
-                        echo "Tests passed"
+                        sh 'go test ./...'
                     }
                 }
             }
