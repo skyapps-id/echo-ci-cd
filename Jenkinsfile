@@ -19,6 +19,7 @@ pipeline {
             agent {
                 docker {
                     image 'golang:1.19'
+                    args '-u 1000:1000'
                 }
             }
             steps {
