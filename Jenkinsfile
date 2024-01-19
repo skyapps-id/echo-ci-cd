@@ -4,35 +4,54 @@ pipeline {
     environment {
         registryName = "echo-ci-cd"
         registryCredential = 'ACR'
+        dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
     }
     
-    node {
-        def app
-        
+    stages {
         stage ('Checkout') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
         
         stage('Build Docker Image') {
-            app = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
+            steps {
+                script {
+                    dockerImage = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
+                }
+            }
         }
         
         stage('Unit Test') {
-            app.inside {
-                sh 'echo "Tests passed"'
+            steps {
+                script {
+                        dockerImage.inside {
+                            sh 'go test ./...'
+                        }
+                    }
+                }
             }
         }
         
         stage('Upload Image to ACR') {
-            docker.withRegistry( "http://${registryUrl}", registryCredential ) {
-                app.push()
+            steps {
+                script {
+                    // dockerImage.tag("${BUILD_NUMBER}")
+                    docker.withRegistry( "http://${registryUrl}", registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
 
         stage('Trigger Manifest Update') {
-            echo "triggering updatemanifestjob"
-            build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName),string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
+            steps {
+                script {
+                    echo "triggering updatemanifestjob"
+                    build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName),string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
+                }
+            }
         }
     }
     
