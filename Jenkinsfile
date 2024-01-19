@@ -18,22 +18,12 @@ pipeline {
         stage('Unit Test') {
             agent {
                 docker {
-                    image 'golang'
+                    image 'golang:1.19'
                 }
             }
             steps {
-                // Create our project directory.
-                sh 'cd ${GOPATH}/src'
-                sh 'mkdir -p ${GOPATH}/src/app'
-
-                // Copy all files in our Jenkins workspace to our project directory.                
-                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/app'
-
-                // Remove cached test results.
-                sh 'go clean -cache'
-
-                // Run Unit Tests.
-                sh 'go test ./... -v -short'            
+                sh 'go version'
+                sh 'go test ./...'            
             }
         }
         
