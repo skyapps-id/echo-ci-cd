@@ -22,6 +22,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'chown -R <your-username>:<your-group> /go'
                 sh 'go version'
                 sh 'go test ./...'            
             }
