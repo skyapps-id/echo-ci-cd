@@ -6,7 +6,6 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
-        GOCACHE
     }
     
     stages {
