@@ -6,9 +6,7 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
-        CGO_ENABLED = '0'
-        GOOS = 'linux'
-        GOARCH = 'amd64'
+        GOCACHE
     }
     
     stages {
@@ -21,10 +19,11 @@ pipeline {
         stage('Unit Test') {
             agent {
                 docker {
-                    image 'golang:1.17'
+                    image 'golang:alpine'
                 }
             }
             steps {
+                sh 'docker run -rm my-go-app go test ./tests'
                 sh 'go version'
                 sh 'go test ./...'            
             }
