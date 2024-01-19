@@ -7,7 +7,7 @@ pipeline {
         registryUrl = 'efishery.azurecr.io'
     }
     
-    node {
+    stages {
         def app
         
         stage ('Checkout') {
