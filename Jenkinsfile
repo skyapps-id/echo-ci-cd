@@ -1,15 +1,15 @@
 pipeline {
     agent any
 
-    def app
-
     environment {
         registryName = "echo-ci-cd"
         registryCredential = 'ACR'
         registryUrl = 'efishery.azurecr.io'
     }
     
-    stages {
+    node {
+        def app
+        
         stage ('Checkout') {
             steps {
                 checkout scm
