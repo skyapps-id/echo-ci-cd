@@ -6,9 +6,9 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
-        CGO_ENABLED=0
-        GOOS=linux
-        GOARCH=amd64
+        CGO_ENABLED = '0'
+        GOOS = 'linux'
+        GOARCH = 'amd64'
     }
     
     stages {
