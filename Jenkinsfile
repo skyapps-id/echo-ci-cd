@@ -22,8 +22,9 @@ pipeline {
                 }
             }
             steps {
+                sh 'ls -la'
                 sh 'go clean -cache'
-                sh 'go test ./...'
+                sh 'go test ./... -v -short'
             }
         }
         
