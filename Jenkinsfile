@@ -10,6 +10,11 @@ pipeline {
     }
     
     stages {
+        stage("setup"){
+            steps {
+                sh 'mkdir -p $GOCACHE'
+            }
+        }
         stage ('Checkout') {
             steps {
                 checkout scm
