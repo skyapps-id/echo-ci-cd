@@ -26,9 +26,8 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
-                        dockerImage.inside {
-                            sh 'go test ./...'
-                        }
+                    dockerImage.inside {
+                        sh 'go test ./...'
                     }
                 }
             }
