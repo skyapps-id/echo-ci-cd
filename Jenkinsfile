@@ -49,8 +49,12 @@ pipeline {
         stage('Trigger Manifest Update') {
             steps {
                 script {
-                    echo "Triggering update manifest job"
-                    build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName),string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
+                    echo "Triggering update manifest job for ${ENV}"
+                    build job: 'Job Deployment', parameters: [
+                        string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),
+                        string(name: 'SVC_NAME', value: registryName),
+                        string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")
+                    ]
                 }
             }
         }
