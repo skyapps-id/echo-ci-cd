@@ -61,7 +61,7 @@ pipeline {
             script {
                 echo "Clear images"
                 sh "docker rmi ${registryName}:${env.BUILD_NUMBER}"
-                sh "docker rmi ${registryUrl}/${${registryName}}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${registryUrl}/${registryName}:${env.BUILD_NUMBER}"
             }
         }
     }
