@@ -39,7 +39,6 @@ pipeline {
         stage('Upload Image to ACR') {
             steps {
                 script {
-                    // dockerImage.tag("${BUILD_NUMBER}")
                     docker.withRegistry( "http://${registryUrl}", registryCredential ) {
                         dockerImage.push()
                     }
@@ -50,7 +49,7 @@ pipeline {
         stage('Trigger Manifest Update') {
             steps {
                 script {
-                    echo "triggering update manifest job"
+                    echo "Triggering update manifest job"
                     build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName),string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
                 }
             }
@@ -60,8 +59,9 @@ pipeline {
     post {
         always {
             script {
+                echo "Clear images"
                 sh "docker rmi ${registryName}:${env.BUILD_NUMBER}"
-                sh "docker rmi ${efishery.azurecr.io}/${${registryName}}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${registryUrl}/${${registryName}}:${env.BUILD_NUMBER}"
             }
         }
     }
