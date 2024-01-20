@@ -21,6 +21,7 @@ pipeline {
                     image 'golang:1.19'
                 }
             }
+            environment { GOCACHE = "${WORKSPACE}" }
             steps {
                 sh 'go version'
                 sh 'go test ./...'            
