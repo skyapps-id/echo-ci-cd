@@ -50,7 +50,7 @@ pipeline {
         stage('Trigger Manifest Update') {
             steps {
                 script {
-                    echo "triggering updatemanifestjob"
+                    echo "triggering update manifest job"
                     build job: 'Job Deployment', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),string(name: 'SVC_NAME', value: registryName),string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")]
                 }
             }
@@ -60,7 +60,8 @@ pipeline {
     post {
         always {
             script {
-                dockerImage.remove() // Remove the Docker image after use
+                sh "docker rmi ${registryName}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${efishery.azurecr.io}/${${registryName}}:${env.BUILD_NUMBER}"
             }
         }
     }
