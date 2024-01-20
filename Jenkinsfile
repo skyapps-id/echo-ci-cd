@@ -18,7 +18,7 @@ pipeline {
         stage('Unit Test') {
             agent {
                 docker {
-                    image 'golang:alpine'
+                    image 'golang:1.19'
                 }
             }
             steps {
