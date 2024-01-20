@@ -57,11 +57,11 @@ pipeline {
         }
     }
     
-    /* post {
+    post {
         always {
             script {
                 dockerImage.remove() // Remove the Docker image after use
             }
         }
-    } */
+    }
 }
