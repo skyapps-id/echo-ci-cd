@@ -6,17 +6,18 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
-        authorName = ''
-        authorEmail = ''
     }
     
+    def authorName
+    def authorEmail
+
     stages {
         stage ('Checkout') {
             steps {
                 checkout scm
                 script {
-                    authorName = sh "git log -1 --pretty=format:'%an'"
-                    authorEmail = sh "git log -1 --pretty=format:'%ae'"
+                    authorName = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'")
+                    authorEmail = sh(returnStdout: true, script: "git log -1 --pretty=format:'%ae'")
                 }
             }
         }
