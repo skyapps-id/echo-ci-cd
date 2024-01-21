@@ -6,12 +6,16 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
+        authorName = ''
+        authorEmail = ''
     }
     
     stages {
         stage ('Checkout') {
             steps {
                 checkout scm
+                authorName = sh "git log -1 --pretty=format:'%an'"
+                authorEmail = sh "git log -1 --pretty=format:'%ae'"
             }
         }
 
@@ -54,7 +58,9 @@ pipeline {
                         string(name: 'ENV', value: ENV),
                         string(name: 'SVC_NAME', value: serviceName),
                         string(name: 'IMAGE_NAME', value: "${registryUrl}/${serviceName}"),
-                        string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)
+                        string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER),
+                        string(name: 'AUTHOR_NAME', value: authorName),
+                        string(name: 'AUTHOR_EMAIL', value: authorEmail),
                     ]
                 }
             }
@@ -68,6 +74,16 @@ pipeline {
                 sh "docker rmi ${serviceName}--${ENV}:${env.BUILD_NUMBER}"
                 sh "docker rmi ${registryUrl}/${serviceName}--${ENV}:${env.BUILD_NUMBER}"
             }
+        }
+        success {
+            echo "Release Success"
+        }
+        failure {
+            echo "Release Failed"
+        }
+        cleanup{
+            echo "Clean up in post work space"
+            cleanWs()
         }
     }
 }
