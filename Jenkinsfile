@@ -62,7 +62,7 @@ pipeline {
                         string(name: 'IMAGE_NAME', value: "${registryUrl}/${serviceName}"),
                         string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER),
                         string(name: 'AUTHOR_NAME', value: authorName),
-                        string(name: 'AUTHOR_EMAIL', value: authorEmail),
+                        string(name: 'AUTHOR_EMAIL', value: authorEmail)
                     ]
                 }
             }
