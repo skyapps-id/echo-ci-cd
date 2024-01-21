@@ -6,10 +6,10 @@ pipeline {
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
+        authorName = ''
+        authorEmail = ''
     }
     
-    def authorName
-    def authorEmail
 
     stages {
         stage ('Checkout') {
