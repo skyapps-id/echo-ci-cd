@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registryName = "echo-ci-cd"
+        serviceName = "echo-ci-cd"
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'efishery.azurecr.io'
@@ -31,7 +31,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${registryName}:${BUILD_NUMBER}", "-f Dockerfile .")
+                    dockerImage = docker.build("${serviceName}:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
@@ -51,9 +51,10 @@ pipeline {
                 script {
                     echo "Triggering update manifest job for ${ENV}"
                     build job: 'Job Deployment', parameters: [
-                        string(name: 'DOCKERTAG', value: env.BUILD_NUMBER),
-                        string(name: 'SVC_NAME', value: registryName),
-                        string(name: 'IMAGE_NAME', value: "${registryUrl}/${registryName}")
+                        string(name: 'ENV', value: ENV),
+                        string(name: 'SVC_NAME', value: serviceName),
+                        string(name: 'IMAGE_NAME', value: "${registryUrl}/${serviceName}"),
+                        string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)
                     ]
                 }
             }
@@ -63,9 +64,9 @@ pipeline {
     post {
         always {
             script {
-                echo "Clear images"
-                sh "docker rmi ${registryName}:${env.BUILD_NUMBER}"
-                sh "docker rmi ${registryUrl}/${registryName}:${env.BUILD_NUMBER}"
+                echo "Cleaning"
+                sh "docker rmi ${serviceName}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${registryUrl}/${serviceName}:${env.BUILD_NUMBER}"
             }
         }
     }
