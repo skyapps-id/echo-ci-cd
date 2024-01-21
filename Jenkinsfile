@@ -31,7 +31,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${serviceName}:${BUILD_NUMBER}", "-f Dockerfile .")
+                    dockerImage = docker.build("${serviceName}--${ENV}:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
@@ -65,8 +65,8 @@ pipeline {
         always {
             script {
                 echo "Cleaning"
-                sh "docker rmi ${serviceName}:${env.BUILD_NUMBER}"
-                sh "docker rmi ${registryUrl}/${serviceName}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${serviceName}--${ENV}:${env.BUILD_NUMBER}"
+                sh "docker rmi ${registryUrl}/${serviceName}--${ENV}:${env.BUILD_NUMBER}"
             }
         }
     }
