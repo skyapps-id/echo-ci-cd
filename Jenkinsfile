@@ -14,8 +14,10 @@ pipeline {
         stage ('Checkout') {
             steps {
                 checkout scm
-                authorName = sh "git log -1 --pretty=format:'%an'"
-                authorEmail = sh "git log -1 --pretty=format:'%ae'"
+                script {
+                    authorName = sh "git log -1 --pretty=format:'%an'"
+                    authorEmail = sh "git log -1 --pretty=format:'%ae'"
+                }
             }
         }
 
