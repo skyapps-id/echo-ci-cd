@@ -7,6 +7,7 @@ import (
 	"echo-ci-cd/repository"
 	"echo-ci-cd/usecase"
 	"echo-ci-cd/utils"
+	"fmt"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -39,6 +40,7 @@ func main() {
 	e.GET("/books", bookHandler.GetBooks)
 
 	// Start the server on port 8080
+	fmt.Println("Mode : " + os.Getenv("ENV"))
 	e.Start(":" + port)
 
 }
